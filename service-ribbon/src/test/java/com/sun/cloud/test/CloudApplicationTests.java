@@ -1,10 +1,9 @@
-package com.sun.demo;
+package com.sun.cloud.test;
 
 import org.junit.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
-class CloudApplicationTests {
+public class CloudApplicationTests extends BaseSpringBootTest{
 
     @Test
     void contextLoads() {
