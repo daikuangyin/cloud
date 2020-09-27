@@ -14,6 +14,29 @@ spring:
       password: duoge123!@#
       driver-class-name: com.mysql.jdbc.Driver
 
+  cache:
+    type: redis
+  shiro:
+    redis:
+      key-prefix: 'YM:BANK:shiro:cache:'
+      session-prefix: 'YM:BANK:shiro:session:'
+      session-time-out: 1H
+      session-cache-expire: 1H
+      value-cache-expire: 1H
+  redis:
+    database: 10
+    host: 1.85.44.38
+    port: 9105
+    password:
+    timeout: 10000ms
+    lettuce:
+      pool:
+        max-idle: 8
+        min-idle: 0
+        max-active: 8
+        max-wait: -1
+      shutdown-timeout: 100
+
 #mybatis-plus
 mybatis-plus:
   global-config:
