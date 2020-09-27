@@ -13,7 +13,7 @@ import org.springframework.web.client.RestTemplate;
 @SpringBootApplication
 @EnableDiscoveryClient
 @EnableHystrix
-@MapperScan("com.sun.cloud.dao")
+@MapperScan("com.sun.cloud.mapper")
 public class RibbonApplication {
 
     public static void main(String[] args) {

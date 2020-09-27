@@ -31,6 +31,9 @@ mybatis-plus:
     map-underscore-to-camel-case: true
     cache-enabled: false
 
+logging:
+  config: classpath:applicationContext-logback.xml
+  filePath: logs/bank
 
 
 eureka:

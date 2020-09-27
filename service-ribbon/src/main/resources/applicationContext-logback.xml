@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<!-- 定义参数 -->
+	<property name="log.lever" value="DEBUG" />
+	<!--<property name="log.filePath" value="${log.filePath}"></property>-->
+	<springProperty scope="context" name="log.filePath" source="logging.filePath"/>
+	<property name="log.pattern" value="%-12(%d{yyyy-MM-dd HH:mm:ss.SSS}) |-%-5level [%thread] %c [%L] -| %msg%n" />
+	<property name="log.MaxFileSize" value="5MB"/>
+	<property name="log.maxHistory" value="10" />
+	<property name="log.maxHistorySize" value="2GB"/>
+
+	<!-- 控制台设置 -->
+	<appender name="consoleAppender" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>${log.pattern}</pattern>
+		</encoder>
+	</appender>
+	<!-- Console -->
+	<appender name="consoleFileAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${log.filePath}/console.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+			<!-- rollover daily -->
+			<fileNamePattern>${log.filePath}/console/console.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+			<maxHistory>${log.maxHistory}</maxHistory>
+			<totalSizeCap>${log.maxHistorySize}</totalSizeCap>
+			<maxFileSize>${log.MaxFileSize}</maxFileSize>
+		</rollingPolicy>
+		<encoder>
+			<pattern>${log.pattern}</pattern>
+		</encoder>
+	</appender>
+	<!-- ALL -->
+	<appender name="allAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${log.filePath}/all.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+			<!-- rollover daily -->
+			<fileNamePattern>${log.filePath}/all/all.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+			<maxHistory>${log.maxHistory}</maxHistory>
+			<totalSizeCap>${log.maxHistorySize}</totalSizeCap>
+			<maxFileSize>${log.MaxFileSize}</maxFileSize>
+		</rollingPolicy>
+		<encoder>
+			<pattern>${log.pattern}</pattern>
+		</encoder>
+	</appender>
+	<!-- DEBUG -->
+	<appender name="debugAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${log.filePath}/debug.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+			<!-- rollover daily -->
+			<fileNamePattern>${log.filePath}/debug/debug.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+			<maxHistory>${log.maxHistory}</maxHistory>
+			<totalSizeCap>${log.maxHistorySize}</totalSizeCap>
+			<maxFileSize>${log.MaxFileSize}</maxFileSize>
+		</rollingPolicy>
+		<encoder>
+			<pattern>${log.pattern}</pattern>
+		</encoder>
+		<filter class="ch.qos.logback.classic.filter.LevelFilter">
+			<level>DEBUG</level>
+			<onMatch>ACCEPT</onMatch>
+			<onMismatch>DENY</onMismatch>
+		</filter>
+	</appender>
+	<!-- INFO -->
+	<appender name="infoAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${log.filePath}/info.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+			<!-- rollover daily -->
+			<fileNamePattern>${log.filePath}/info/info.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+			<maxHistory>${log.maxHistory}</maxHistory>
+			<totalSizeCap>${log.maxHistorySize}</totalSizeCap>
+			<maxFileSize>${log.MaxFileSize}</maxFileSize>
+		</rollingPolicy>
+		<encoder>
+			<pattern>${log.pattern}</pattern>
+		</encoder>
+		<filter class="ch.qos.logback.classic.filter.LevelFilter">
+			<level>INFO</level>
+			<onMatch>ACCEPT</onMatch>
+			<onMismatch>DENY</onMismatch>
+		</filter>
+	</appender>
+
+	<appender name="errorAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${log.filePath}/error.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+			<!-- rollover daily -->
+			<fileNamePattern>${log.filePath}/error/error.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+			<maxHistory>${log.maxHistory}</maxHistory>
+			<totalSizeCap>${log.maxHistorySize}</totalSizeCap>
+			<maxFileSize>${log.MaxFileSize}</maxFileSize>
+		</rollingPolicy>
+		<encoder>
+			<pattern>${log.pattern}</pattern>
+		</encoder>
+		<filter class="ch.qos.logback.classic.filter.LevelFilter">
+			<level>ERROR</level>
+			<onMatch>ACCEPT</onMatch>
+			<onMismatch>DENY</onMismatch>
+		</filter>
+	</appender>
+
+
+	<!-- project default level -->
+	<logger name="com.ym" level="${log.lever}" >
+		<appender-ref ref="allAppender"/>
+		<appender-ref ref="infoAppender" />
+		<appender-ref ref="debugAppender" />
+		<appender-ref ref="errorAppender" />
+	</logger>
+	<logger name="org.springframework" level="error" >
+		<appender-ref ref="allAppender"/>
+		<appender-ref ref="infoAppender" />
+		<appender-ref ref="debugAppender" />
+		<appender-ref ref="errorAppender" />
+	</logger>
+	<logger name="java.sql" level="${log.lever}">
+		<appender-ref ref="allAppender"/>
+		<appender-ref ref="infoAppender" />
+		<appender-ref ref="debugAppender" />
+		<appender-ref ref="errorAppender" />
+	</logger>
+
+	<!-- redis访问 -->
+	<logger name="io.lettuce.core" level="error">
+		<appender-ref ref="allAppender"/>
+		<appender-ref ref="infoAppender" />
+		<appender-ref ref="debugAppender" />
+		<appender-ref ref="errorAppender" />
+	</logger>
+
+
+	<root  level="${log.lever}">
+		<appender-ref ref="consoleAppender"/>
+		<appender-ref ref="consoleFileAppender"/>
+	</root>
+</configuration>

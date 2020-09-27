@@ -1,12 +1,14 @@
-package com.sun.cloud.test;
+package com.sun.cloud.test.activiti;
 
 import cn.hutool.core.io.IoUtil;
+import com.sun.cloud.test.BaseSpringBootTest;
 import org.activiti.engine.HistoryService;
 import org.activiti.engine.RepositoryService;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
 import org.activiti.engine.history.HistoricActivityInstance;
 import org.activiti.engine.history.HistoricActivityInstanceQuery;
+import org.activiti.engine.impl.identity.Authentication;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.repository.ProcessDefinitionQuery;
 import org.activiti.engine.runtime.ProcessInstance;
@@ -19,7 +21,9 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.zip.ZipInputStream;
 
 public class ActivetiTest extends BaseSpringBootTest {
@@ -43,9 +47,9 @@ public class ActivetiTest extends BaseSpringBootTest {
     @Test
     public void TestDeployProcess() {
         repositoryService.createDeployment()
-                .addClasspathResource("processes/fund.bpmn")
-                .addClasspathResource("processes/fund.png")
-                .name("资金申领流程")
+                .addClasspathResource("processes/test.bpmn")
+                .addClasspathResource("processes/test.png")
+                .name("测试流程")
                 .deploy();
     }
 
@@ -63,14 +67,27 @@ public class ActivetiTest extends BaseSpringBootTest {
                 .deploy();
     }
 
+    String processDefinitionKey = "fund_apply";
+
     /**
      * 开启任务
      */
     @Test
     public void TestStartProcess() {
+        //流程定义key
+
+
         //业务关联标识DemoApplicationTests
         String businessKey = "1001";
-        ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("fund_flow",businessKey);
+
+        //定义流程变量
+        Map<String, Object> variables = new HashMap<String, Object>();
+        //设置流程变量assignee
+        variables.put("assignee", "张三三");
+
+
+        ProcessInstance processInstance = runtimeService
+                .startProcessInstanceByKey(processDefinitionKey, businessKey, variables);
 
         System.out.println("流程部署ID: " + processInstance.getDeploymentId());
         System.out.println("流程定义ID: " + processInstance.getProcessDefinitionId());
@@ -84,11 +101,14 @@ public class ActivetiTest extends BaseSpringBootTest {
     @Test
     public void TestTaskProcess() {
         List<Task> taskList = taskService.createTaskQuery()
-                .processDefinitionKey("fund_flow")
+                .processDefinitionKey(processDefinitionKey)
                 .taskAssignee("张三")
                 .list();
 
         for (Task task : taskList) {
+            Map<String, Object> processVariables = task.getProcessVariables();
+            System.out.println(processVariables);
+
             System.out.println(" 流 程 实 例 id ： " +
                     task.getProcessInstanceId());
             System.out.println("任务id：" + task.getId());
@@ -97,6 +117,7 @@ public class ActivetiTest extends BaseSpringBootTest {
         }
 
     }
+
 
     /**
      * 完成任务
@@ -194,6 +215,9 @@ public class ActivetiTest extends BaseSpringBootTest {
 
     }
 
+    /**
+     * 查询流程历史信息
+     */
     @Test
     public void testHistoric01() {
         HistoricActivityInstanceQuery query =
@@ -209,4 +233,15 @@ public class ActivetiTest extends BaseSpringBootTest {
             System.out.println("==============================");
         }
     }
+
+
+    /**
+     * 启动流程实例时设计流程变量
+     */
+    @Test
+    public void testAddVariables() {
+
+    }
+
+
 }
