@@ -104,6 +104,35 @@
             <groupId>org.crazycake</groupId>
             <artifactId>shiro-redis</artifactId>
         </dependency>
+
+        <!--RXTX实现串口通讯-->
+<!--        <dependency>-->
+<!--            <groupId>org.slf4j</groupId>-->
+<!--            <artifactId>slf4j-api</artifactId>-->
+<!--            <version>1.7.30</version>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>org.apache.mina</groupId>-->
+<!--            <artifactId>mina-core</artifactId>-->
+<!--            <version>2.0.9</version>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>org.apache.mina</groupId>-->
+<!--            <artifactId>mina-transport-apr</artifactId>-->
+<!--            <version>2.0.9</version>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>org.apache.mina</groupId>-->
+<!--            <artifactId>mina-transport-serial</artifactId>-->
+<!--            <version>2.0.9</version>-->
+<!--        </dependency>-->
+
+
+<!--        <dependency>-->
+<!--            <groupId>org.bidib.jbidib.org.qbang.rxtx</groupId>-->
+<!--            <artifactId>rxtxcomm</artifactId>-->
+<!--            <version>2.2</version>-->
+<!--        </dependency>-->
     </dependencies>
 
 </project>
