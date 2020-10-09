@@ -26,6 +26,12 @@ public class SysOperationLog implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
+     * 主键
+     */
+    @TableField("id")
+    private Long id;
+
+    /**
      * 请求类型
      */
     private String method;

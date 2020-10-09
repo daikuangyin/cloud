@@ -14,6 +14,29 @@ spring:
       password: duoge123!@#
       driver-class-name: com.mysql.jdbc.Driver
 
+  cache:
+    type: redis
+  shiro:
+    redis:
+      key-prefix: 'COM:SUN:shiro:cache:'
+      session-prefix: 'COM:SUN:shiro:session:'
+      session-time-out: 1H
+      session-cache-expire: 1H
+      value-cache-expire: 1H
+  redis:
+    database: 10
+    host: 192.168.10.100
+    port: 6379
+    password:
+    timeout: 10000ms
+    lettuce:
+      pool:
+        max-idle: 8
+        min-idle: 0
+        max-active: 8
+        max-wait: -1
+      shutdown-timeout: 100
+
 #mybatis-plus
 mybatis-plus:
   global-config:
@@ -26,7 +49,7 @@ mybatis-plus:
     refresh-mapper: true
     field-strategy: 0
   mapper-locations: classpath:mapper/*.xml,mapper/*/*.xml
-  type-aliases-package: com.sun.cloud.domain.entity
+  type-aliases-package: com.sun.cloud.entity
   configuration:
     map-underscore-to-camel-case: true
     cache-enabled: false
@@ -84,3 +107,15 @@ hystrix:
       queueSizeRejectionThreshold: 5
       # 线程生存时间, 默认1分钟
       keepAliveTimeMinutes: 1
+
+# 用户自定义配置
+config-center:
+  enumsScan: true
+  # 签名设置
+  sign:
+    # 盐
+    salt: ym
+    # 签名超时时间，单位分钟
+    timeout: 3
+    # 验签开关
+    enabled: true

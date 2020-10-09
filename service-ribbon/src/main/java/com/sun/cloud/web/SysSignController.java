@@ -2,19 +2,18 @@ package com.sun.cloud.web;
 
 
 import org.springframework.web.bind.annotation.RequestMapping;
-
 import org.springframework.web.bind.annotation.RestController;
 
 /**
  * <p>
- * 系统操作日志表 前端控制器
+ *  前端控制器
  * </p>
  *
  * @author admin
- * @since 2020-09-27
+ * @since 2020-09-28
  */
 @RestController
-@RequestMapping("/sysOperationLog")
-public class SysOperationLogController {
+@RequestMapping("/sysSign/sys-sign")
+public class SysSignController {
 
 }
